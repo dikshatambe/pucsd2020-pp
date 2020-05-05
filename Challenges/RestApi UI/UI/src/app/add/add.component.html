@@ -1,0 +1,32 @@
+<div class="card" style="background-color:rgb(237, 239, 242);height: 300px;width: 400px">
+    <div class="card-body">
+
+        <div class="text-center">
+            <h2>Add User</h2>
+        </div>
+        <form (add)="getValue()">
+            <div class="col">
+                <div class="row-3" class="button">
+                    <input [(ngModel)]="lname" name="lname" placeholder="Enter First Name">
+                </div>
+                <div class="row-3" class="button">
+                    <input [(ngModel)]="fname" name="fname" placeholder="Enter Last Name">
+                </div>
+                <div class="row-3" class="button">
+                    <input [(ngModel)]="email" name="email" placeholder="Enter Email Id">
+                </div>
+                <div class="row-3" class="button">
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="add">SUBMIT</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="cancel">RESET</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

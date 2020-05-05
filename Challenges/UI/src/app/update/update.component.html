@@ -1,0 +1,51 @@
+<body style="background-color:lightgrey;">
+
+    <div class="text-center">
+        <h2>Update User</h2>
+    </div>
+
+    <form (update)="getValue()">
+        <div align="center" style="padding: 10px">
+
+            <div class="col">
+
+
+                <div class="row-2">
+
+                    <input [(ngModel)]="id" name="updatedBy" placeholder="Enter id to update">
+
+                </div>
+
+                <div class="row-2">
+
+                    <input [(ngModel)]="lname" name="lname" placeholder="Enter The First Name">
+
+                </div>
+
+                <div class="row-2">
+
+                    <input [(ngModel)]="fname" name="fname" placeholder="Enter The Last Name">
+
+                </div>
+
+                <div class="row-2">
+
+                    <input [(ngModel)]="email" name="email" placeholder="Enter The Email Id">
+
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-6" style="padding: 15px">
+                    <button type="cancel">CANCEL</button>
+                </div>
+                <div class="col-6" style="padding: 15px">
+                    <button type="update">UPDATE</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+</body>

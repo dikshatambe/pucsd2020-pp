@@ -1,0 +1,44 @@
+<body style="background-color:lightgrey;">
+
+    <div class="text-center">
+        <h2>Add User</h2>
+    </div>
+    <form (add)="getValue()">
+        <div align="center">
+
+            <div class="col">
+
+                <div class="row-2">
+
+                    <input [(ngModel)]="lname" name="lname" placeholder="Enter First Name">
+
+                </div>
+
+                <div class="row-2">
+
+                    <input [(ngModel)]="fname" name="fname" placeholder="Enter Last Name">
+
+                </div>
+
+                <div class="row-2">
+
+                    <input [(ngModel)]="email" name="email" placeholder="Enter Email Id">
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-6" style="padding: 15px">
+                    <button type="add">ADD</button>
+                </div>
+                <div class="col-6" style="padding: 15px">
+                    <button type="cancel">CANCEL</button>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+</body>

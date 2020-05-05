@@ -1,0 +1,12 @@
+.col
+{
+    height: 800px;
+}
+
+.show
+{
+    /*background-color: rgb(199, 230, 237);*/
+    height: 800px;
+    widows: 400px;
+    padding: 100px;
+}

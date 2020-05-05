@@ -1,0 +1,44 @@
+<body style="background-color:lightgrey;">
+
+    <div class="text-center">
+        <h2>Delete User</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-6" style="padding: 50px">
+            <button (click)="deleteAll()">DelById</button>
+        </div>
+        <div class="col-6" style="padding: 50px">
+            <button (click)="deleteById()">DelAll</button>
+        </div>
+    </div>
+
+
+    <div *ngIf="delAllEnable==true">
+        <form (delete)="getValue()">
+            <div style="padding: 10px">
+
+                <div class="col">
+
+                    <div class="row-2">
+
+                        <input [(ngModel)]="id" name="id" placeholder="Enter The id to delete">
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-6" style="padding: 15px">
+                        <button type="cancel">CANCEL</button>
+                    </div>
+                    <div class="col-6" style="padding: 15px">
+                        <button type="delete">DELETE</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+</body>
