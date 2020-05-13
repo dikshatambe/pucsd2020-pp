@@ -6,7 +6,7 @@ DROP TABLE  IF EXISTS Groups;
 DROP TABLE  IF EXISTS Users;
 DROP TABLE  IF EXISTS Files;
 DROP TABLE  IF EXISTS Folders;
-DROP TABLE  IF EXISTS Permissions;
+DROP TABLE  IF EXISTS permissions;
 DROP TABLE  IF EXISTS UserGroup;
 DROP TABLE  IF EXISTS FileFolder;
 DROP TABLE  IF EXISTS FilePermission;
@@ -16,14 +16,14 @@ CREATE TABLE Groups (
     GroupId   int NOT NULL,
     GroupName varchar(10) NOT NULL,
     Owner     varchar(20),
-    Password  varchar(10),
+    password  varchar(10),
     PRIMARY KEY (GroupId)
 );
 
 CREATE TABLE Users (
     UserId   int NOT NULL,
     UserName varchar(10) NOT NULL,
-    Password varchar(10),
+    password varchar(10) NOT NULL,
     PRIMARY KEY (UserId)
 );
 
@@ -41,7 +41,7 @@ CREATE TABLE Folders (
     PRIMARY KEY (FolderId)
 );
 
-CREATE TABLE Permissions (
+CREATE TABLE permissions (
     PId   int NOT NULL,
     PName varchar(10) NOT NULL,
     PRIMARY KEY (PId)
@@ -70,7 +70,7 @@ CREATE TABLE FilePermission (
         PRIMARY KEY (UserId,FileId),
         FOREIGN KEY(UserId) REFERENCES Users(UserId),
         FOREIGN KEY(FileId) REFERENCES Files(FileId),
-        FOREIGN KEY(PId) REFERENCES Permissions(PId)
+        FOREIGN KEY(PId) REFERENCES permissions(PId)
 );
 
 
@@ -81,6 +81,6 @@ CREATE TABLE FolderPermission (
         PRIMARY KEY (UserId,FolderId),
         FOREIGN KEY(UserId)    REFERENCES Users(UserId),
         FOREIGN KEY(FolderId)  REFERENCES Folders(FolderId),
-        FOREIGN KEY(PId)       REFERENCES Permissions(PId)
+        FOREIGN KEY(PId)       REFERENCES permissions(PId)
 );
 
