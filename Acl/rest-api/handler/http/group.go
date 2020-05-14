@@ -21,20 +21,20 @@ type Group struct {
 
 func NewGroupHandler(conn *sql.DB) *Group {
 	return &Group{
-		repo: group.NewGroupRepository(conn),
+		repo: user.NewGroupRepository(conn),
 	}
 }
 
 func (group *Group) GetHTTPHandler() []*handler.HTTPHandler {
 	return []*handler.HTTPHandler{
-		&handler.HTTPHandler{Authenticated: true, Method: http.MethodGet, Path: "group/{id}", Func: group.GetByID},
-		&handler.HTTPHandler{Authenticated: true, Method: http.MethodPost, Path: "group", Func: group.Create},
-		&handler.HTTPHandler{Authenticated: true, Method: http.MethodPut, Path: "group/{id}", Func: group.Update},
-		&handler.HTTPHandler{Authenticated: true, Method: http.MethodDelete, Path: "group/{id}", Func: group.Delete},
-		&handler.HTTPHandler{Authenticated: true, Method: http.MethodGet, Path: "group", Func: group.GetAll},
+		&handler.HTTPHandler{Authenticated: false, Method: http.MethodGet, Path: "group/{id}", Func: group.GetByID},
+		&handler.HTTPHandler{Authenticated: false, Method: http.MethodPost, Path: "group", Func: group.Create},
+		&handler.HTTPHandler{Authenticated: false, Method: http.MethodPut, Path: "group/{id}", Func: group.Update},
+		&handler.HTTPHandler{Authenticated: false, Method: http.MethodDelete, Path: "group/{id}", Func: group.Delete},
+		&handler.HTTPHandler{Authenticated: false, Method: http.MethodGet, Path: "group", Func: group.GetAll},
+
 	}
 }
-
 func (group *Group) GetByID(w http.ResponseWriter, r *http.Request) {
 	var grp interface{}
 	id, err := strconv.ParseInt(chi.URLParam(r, "id"), 10, 64)
@@ -42,22 +42,20 @@ func (group *Group) GetByID(w http.ResponseWriter, r *http.Request) {
 		if nil != err {
 			break
 		}
-
+		
 		grp, err = group.repo.GetByID(r.Context(), id)
 		break
 	}
-
 	handler.WriteJSONResponse(w, r, grp, http.StatusOK, err)
 }
 
 func (group *Group) Create(w http.ResponseWriter, r *http.Request) {
-	var grp model.Group
+	var grp model.Group	
 	err := json.NewDecoder(r.Body).Decode(&grp)
 	for {
 		if nil != err {
 			break
 		}
-
 		_, err = group.repo.Create(r.Context(), grp)
 		break
 	}
@@ -66,7 +64,7 @@ func (group *Group) Create(w http.ResponseWriter, r *http.Request) {
 
 func (group *Group) Update(w http.ResponseWriter, r *http.Request) {
 	var iUsr interface{}
-	id, _ := strconv.ParseInt(chi.URLParam(r, "id"), 10, 64)
+	id,_ := strconv.ParseInt(chi.URLParam(r, "id"), 10, 64)
 	grp := model.Group{}
 	err := json.NewDecoder(r.Body).Decode(&grp)
 	for {
@@ -77,19 +75,14 @@ func (group *Group) Update(w http.ResponseWriter, r *http.Request) {
 		if nil != err {
 			break
 		}
-
-		// set logged in group id for tracking update
-		grp.UpdatedBy = 0
-
 		iUsr, err = group.repo.Update(r.Context(), grp)
-		if nil != err {
+			if nil != err {
+				break
+			}
+			grp = iUsr.(model.Group)
 			break
 		}
-		grp = iUsr.(model.Group)
-		break
-	}
-
-	handler.WriteJSONResponse(w, r, grp, http.StatusOK, err)
+		handler.WriteJSONResponse(w, r, grp, http.StatusOK, err)
 }
 
 func (group *Group) Delete(w http.ResponseWriter, r *http.Request) {
@@ -99,7 +92,6 @@ func (group *Group) Delete(w http.ResponseWriter, r *http.Request) {
 		if nil != err {
 			break
 		}
-
 		err = group.repo.Delete(r.Context(), id)
 		if nil != err {
 			break
@@ -107,7 +99,6 @@ func (group *Group) Delete(w http.ResponseWriter, r *http.Request) {
 		payload = "Group deleted successfully"
 		break
 	}
-
 	handler.WriteJSONResponse(w, r, payload, http.StatusOK, err)
 }
 

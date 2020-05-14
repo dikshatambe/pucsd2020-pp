@@ -17,12 +17,12 @@ func NewGroupRepository(conn *sql.DB) *groupRepository {
 }
 
 func (group *groupRepository) GetByID(cntx context.Context, id int64) (interface{}, error) {
-	obj := new(model.User)
+	obj := new(model.Group)
 	return driver.GetById(group.conn, obj, id)
 }
 
 func (group *groupRepository) Create(cntx context.Context, obj interface{}) (interface{}, error) {
-	usr := obj.(model.User)
+	usr := obj.(model.Group)
 	result, err := driver.Create(group.conn, &usr)
 	if nil != err {
 		return 0, err
@@ -34,17 +34,18 @@ func (group *groupRepository) Create(cntx context.Context, obj interface{}) (int
 }
 
 func (group *groupRepository) Update(cntx context.Context, obj interface{}) (interface{}, error) {
-	usr := obj.(model.User)
+	usr := obj.(model.Group)
+	
 	err := driver.UpdateById(group.conn, &usr)
 	return obj, err
 }
 
 func (group *groupRepository) Delete(cntx context.Context, id int64) error {
-	obj := &model.User{Id: id}
+	obj := &model.Group{Id: id}
 	return driver.SoftDeleteById(group.conn, obj, id)
 }
 
 func (group *groupRepository) GetAll(cntx context.Context) ([]interface{}, error) {
-	obj := &model.User{}
+	obj := &model.Group{}
 	return driver.GetAll(group.conn, obj, 0, 0)
 }
