@@ -1,11 +1,12 @@
 package user
 
-import (	
-	"os"	
+import (
 	"context"
 	"database/sql"
 	"github.com/pucsd2020-pp/rest-api/driver"
 	"github.com/pucsd2020-pp/rest-api/model"
+	"os"
+	"path/filepath"
 )
 
 type fileRepository struct {
@@ -22,9 +23,14 @@ func (file *fileRepository) GetByID(cntx context.Context, id int64) (interface{}
 	return driver.GetById(file.conn, obj, id)
 }
 
-/*func (file *fileRepository) Create(cntx context.Context, obj interface{}) (interface{}, error) {
+func (file *fileRepository) Create(cntx context.Context, obj interface{}) (interface{}, error) {
 	usr := obj.(model.File)
-	//lines to create file on server
+
+	basepath := usr.FilePath
+	filename := usr.FileName
+	dst, _ := os.Create(filepath.Join(basepath, filename, "/"))
+	defer dst.Close()
+
 	result, err := driver.Create(file.conn, &usr)
 	if nil != err {
 		return 0, err
@@ -33,37 +39,7 @@ func (file *fileRepository) GetByID(cntx context.Context, id int64) (interface{}
 	id, _ := result.LastInsertId()
 	usr.Id = id
 	return id, nil
-}*/
-
-func (file*fileRepository) Create(cntx context.Context, obj interface{}) (interface{}, error) {
-	usr := obj.(model.File)
-	if usr.FileTypeId == 1 {
-	basepath := usr.FilePath
-	filename := usr.FileName
-	dst,_ := os.Create(filepath.Join(basepath, filename, "/"))
-	defer dst.Close()
-	}
-	if usr.FileTypeId == 2 {
-	basepath := usr.FilePath
-	foldername := usr.FileName
-	_, err := os.Stat(filepath.Join(basepath, foldername, "/"))
-	if os.IsNotExist(err) {
-	errDir := os.MkdirAll(usr.FilePath+"/"+usr.FileName, 0755)
-	if errDir != nil {
-	return 0, err
-	}
-	}
-	
-	}
-	result, err := driver.Create(file.conn, &usr)
-	if nil != err {
-	return 0, err
-	}
-	
-	id, _ := result.LastInsertId()
-	usr.Id = id
-	return id, nil
-	}
+}
 
 func (file *fileRepository) Update(cntx context.Context, obj interface{}) (interface{}, error) {
 	usr := obj.(model.File)

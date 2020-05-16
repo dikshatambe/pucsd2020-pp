@@ -29,7 +29,7 @@ CREATE TABLE Users (
 CREATE TABLE Files (
     fid   int NOT NULL,
     FileName varchar(10) NOT NULL,
-    Owner    varchar(20),
+    FilePath varchar(50),
     PRIMARY KEY (fid)
 );
 
@@ -81,3 +81,4 @@ CREATE TABLE FolderPermission (
         FOREIGN KEY(foid)  REFERENCES Folders(foid),
         FOREIGN KEY(pid)       REFERENCES permissions(pid)
 );
+
