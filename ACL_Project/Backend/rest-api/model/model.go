@@ -5,4 +5,3 @@ type IModel interface {
 	Table() string
 	String() string
 }
-
