@@ -11,6 +11,7 @@ DROP TABLE  IF EXISTS UserGroup;
 DROP TABLE  IF EXISTS FileFolder;
 DROP TABLE  IF EXISTS FilePermission;
 DROP TABLE  IF EXISTS FolderPermission;
+DROP TABLE  IF EXISTS GroupPermission;
 
 CREATE TABLE Groups (
     gid   int NOT NULL,
@@ -20,8 +21,11 @@ CREATE TABLE Groups (
 
 CREATE TABLE Users (
     id   int NOT NULL,
+    FirstName varchar(10) NOT NULL,
+    LastName varchar(10) NOT NULL,
     UserName varchar(10) NOT NULL,
     password varchar(10) NOT NULL,
+    IsUserRoot  int,
     PRIMARY KEY (id)
 );
 
@@ -80,5 +84,17 @@ CREATE TABLE FolderPermission (
         FOREIGN KEY(id)    REFERENCES Users(id),
         FOREIGN KEY(foid)  REFERENCES Folders(foid),
         FOREIGN KEY(pid)       REFERENCES permissions(pid)
+);
+
+
+CREATE TABLE IF NOT EXISTS GroupPermission
+(
+    gp_id       INT     AUTO_INCREMENT      PRIMARY KEY,
+    fid INT NOT NULL,
+    gid INT  NOT NULL, #group
+    pid INT NOT NULL,
+    FOREIGN KEY(gid) REFERENCES Groups(gid) ,
+    FOREIGN KEY(fid) REFERENCES Files(fid) ,
+    FOREIGN KEY(pid) REFERENCES permissions(pid)
 );
 
