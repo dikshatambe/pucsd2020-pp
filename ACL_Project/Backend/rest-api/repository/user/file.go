@@ -48,10 +48,17 @@ func (file *fileRepository) Update(cntx context.Context, obj interface{}) (inter
 	return obj, err
 }
 
-func (file *fileRepository) Delete(cntx context.Context, id int64) error {
-	obj := &model.File{Id: id}
+func (file *fileRepository) Delete(cntx context.Context, id int64) (interface{}, error) {
+	usr := &model.File{Id: id}
 	/*Lines to delete file over the server*/
-	return driver.SoftDeleteById(file.conn, obj, id)
+	obj := new(model.File)
+	driver.GetById(file.conn, obj, id)
+
+	basepath := obj.FilePath
+	filename := obj.FileName
+	os.Remove(filepath.Join(basepath, filename, "/"))
+
+	return driver.DeleteById(file.conn, usr, id)
 }
 
 func (file *fileRepository) GetAll(cntx context.Context) ([]interface{}, error) {
